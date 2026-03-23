@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navigator KB — Level 1 Support</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="logo" onclick="showHome()" style="cursor:pointer">
+    <div class="logo-icon">N</div>
+    <div class="logo-text">Navigator <span>KB</span></div>
+  </div>
+  <div class="search-wrap">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" id="search" placeholder="Search articles, carriers, procedures…" autocomplete="off">
+  </div>
+  <div class="header-meta">
+    <button class="home-nav-btn" id="home-nav-btn" onclick="showHome()">
+      ← Home
+    </button>
+    <span class="badge">L1 Support</span>
+    <span class="badge" style="color:var(--accent2)">Navigator</span>
+  </div>
+</header>
+
+<!-- HOME PAGE -->
+<div class="home-wrapper active" id="home-wrapper">
+<div class="home-page" id="home-page">
+  <div class="home-welcome">
+    <h1>Navigator <span>Knowledge Base</span></h1>
+    <p>Level 1 Support reference for the Navigator insurance platform. Browse by category or search above.</p>
+  </div>
+
+  <div class="home-grid">
+    <div class="home-cat-card" style="--hcc-color:#00d4aa;--hcc-bg:rgba(0,212,170,0.05);--hcc-bg-solid:rgba(0,212,170,0.12)" onclick="goToCat('access')">
+      <div class="home-cat-icon-wrap">🎓</div>
+      <div class="home-cat-name">Access &amp; Training</div>
+      <div class="home-cat-count" id="hc-count-access">— articles</div>
+    </div>
+    <div class="home-cat-card" style="--hcc-color:#4f7cff;--hcc-bg:rgba(79,124,255,0.05);--hcc-bg-solid:rgba(79,124,255,0.12)" onclick="goToCat('licensing')">
+      <div class="home-cat-icon-wrap">📋</div>
+      <div class="home-cat-name">Licensing</div>
+      <div class="home-cat-count" id="hc-count-licensing">— articles</div>
+    </div>
+    <div class="home-cat-card" style="--hcc-color:#ffd166;--hcc-bg:rgba(255,209,102,0.05);--hcc-bg-solid:rgba(255,209,102,0.12)" onclick="goToCat('carriers')">
+      <div class="home-cat-icon-wrap">🏢</div>
+      <div class="home-cat-name">Carriers &amp; Products</div>
+      <div class="home-cat-count" id="hc-count-carriers">— articles</div>
+    </div>
+    <div class="home-cat-card" style="--hcc-color:#ff9f43;--hcc-bg:rgba(255,159,67,0.05);--hcc-bg-solid:rgba(255,159,67,0.12)" onclick="goToCat('applications')">
+      <div class="home-cat-icon-wrap">📝</div>
+      <div class="home-cat-name">Applications</div>
+      <div class="home-cat-count" id="hc-count-applications">— articles</div>
+    </div>
+    <div class="home-cat-card" style="--hcc-color:#ff6b6b;--hcc-bg:rgba(255,107,107,0.05);--hcc-bg-solid:rgba(255,107,107,0.12)" onclick="goToCat('declined')">
+      <div class="home-cat-icon-wrap">❌</div>
+      <div class="home-cat-name">Declined Applications</div>
+      <div class="home-cat-count" id="hc-count-declined">— articles</div>
+    </div>
+    <div class="home-cat-card" style="--hcc-color:#a29bfe;--hcc-bg:rgba(162,155,254,0.05);--hcc-bg-solid:rgba(162,155,254,0.12)" onclick="goToCat('escalation')">
+      <div class="home-cat-icon-wrap">📊</div>
+      <div class="home-cat-name">Escalation Matrix</div>
+      <div class="home-cat-count" id="hc-count-escalation">— articles</div>
+    </div>
+  </div>
+
+  <div class="home-quick-title">Quick Access</div>
+  <div class="home-quick-grid">
+    <div class="home-quick-card" onclick="openDetail(10)">
+      <div class="home-quick-icon">✅</div>
+      <div class="home-quick-text"><strong>Clarifying Questions Checklist</strong><span>Before creating any ticket</span></div>
+    </div>
+    <div class="home-quick-card" onclick="openDetail(9)">
+      <div class="home-quick-icon">📊</div>
+      <div class="home-quick-text"><strong>Full Escalation Matrix</strong><span>All carriers &amp; contact info</span></div>
+    </div>
+    <div class="home-quick-card" onclick="openDetail(3)">
+      <div class="home-quick-icon">⚠️</div>
+      <div class="home-quick-text"><strong>Licensing Error Fix</strong><span>Writing numbers &amp; state licenses</span></div>
+    </div>
+    <div class="home-quick-card" onclick="goToCat('declined')">
+      <div class="home-quick-icon">❌</div>
+      <div class="home-quick-text"><strong>Declined Application Guide</strong><span>All 4 carriers</span></div>
+    </div>
+  </div>
+</div>
+</div><!-- end home-wrapper -->
+
+<!-- ARTICLES VIEW -->
+<div class="articles-page" id="articles-page">
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Categories</div>
+      <button class="cat-btn active" data-cat="all" onclick="filterCat('all', this)">
+        <span class="cat-dot" style="background:#4f7cff"></span>
+        All Articles
+        <span class="count" id="count-all">0</span>
+      </button>
+      <button class="cat-btn" data-cat="access" onclick="filterCat('access', this)">
+        <span class="cat-dot" style="background:#00d4aa"></span>
+        Access & Training
+        <span class="count" id="count-access">0</span>
+      </button>
+      <button class="cat-btn" data-cat="licensing" onclick="filterCat('licensing', this)">
+        <span class="cat-dot" style="background:#4f7cff"></span>
+        Licensing
+        <span class="count" id="count-licensing">0</span>
+      </button>
+      <button class="cat-btn" data-cat="carriers" onclick="filterCat('carriers', this)">
+        <span class="cat-dot" style="background:#ffd166"></span>
+        Carriers & Products
+        <span class="count" id="count-carriers">0</span>
+      </button>
+      <button class="cat-btn" data-cat="applications" onclick="filterCat('applications', this)">
+        <span class="cat-dot" style="background:#ff9f43"></span>
+        Applications
+        <span class="count" id="count-applications">0</span>
+      </button>
+      <button class="cat-btn" data-cat="declined" onclick="filterCat('declined', this)">
+        <span class="cat-dot" style="background:#ff6b6b"></span>
+        Declined Apps
+        <span class="count" id="count-declined">0</span>
+      </button>
+      <button class="cat-btn" data-cat="escalation" onclick="filterCat('escalation', this)">
+        <span class="cat-dot" style="background:#a29bfe"></span>
+        Escalation Matrix
+        <span class="count" id="count-escalation">0</span>
+      </button>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="tags-area">
+      <div class="tags-label">Filter by Tag</div>
+      <div class="tags-list" id="tags-list"></div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="results-header">
+      <div class="results-title" id="results-title">All Articles</div>
+      <div class="results-count" id="results-count"></div>
+    </div>
+    <div class="cards-grid" id="cards-grid"></div>
+    <div class="empty" id="empty-state" style="display:none">
+      <div class="empty-icon">🔍</div>
+      <h3>No articles found</h3>
+      <p>Try a different search or clear your filters</p>
+    </div>
+  </main>
+</div>
+</div><!-- end articles-page -->
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-header">
+      <div class="detail-cat" id="d-cat"></div>
+      <div class="detail-title" id="d-title"></div>
+      <div class="detail-tags" id="d-tags"></div>
+      <button class="detail-close" onclick="closeDetailBtn()">✕</button>
+    </div>
+    <div class="detail-body" id="d-body"></div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
